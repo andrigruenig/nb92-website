@@ -131,38 +131,35 @@ a { color: inherit; }
 .scoreboard {
   background: var(--surface);
   border-bottom: 1px solid var(--line);
-  white-space: nowrap;
   overflow: hidden;
   position: sticky;
   top: 0;
   z-index: 10;
-  display: flex;
-  padding: 10px 0;
 }
 
-.scoreboard:hover { animation-play-state: paused; }
+.scoreboard-track {
+  display: flex;
+  width: max-content;
+  padding: 10px 0;
+  animation: ticker 26s linear infinite;
+}
+
+.scoreboard:hover .scoreboard-track { animation-play-state: paused; }
 
 .sb-item, .sb-dot {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   color: var(--ink-muted);
-  display: inline-block;
+  white-space: nowrap;
   padding: 0 14px;
-  animation: ticker 22s linear infinite;
 }
 
 .sb-dot { color: var(--accent); }
 
 @keyframes ticker {
   from { transform: translateX(0); }
-  to { transform: translateX(-100%); }
-}
-
-/* Simpler static fallback on small screens to avoid layout jank */
-@media (max-width: 480px) {
-  .scoreboard { flex-wrap: wrap; white-space: normal; }
-  .sb-item, .sb-dot { animation: none; }
+  to { transform: translateX(-50%); }
 }
 
 /* ===================== PLATZHALTER-FOTOS ===================== */
