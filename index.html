@@ -33,35 +33,26 @@
 
   <!-- Scoreboard-Leiste: läuft oben durch die ganze Seite -->
 <div class="scoreboard">
-  <div class="scoreboard-track">
-    <span class="sb-item">ZUG UNITED · U21</span>
-    <span class="sb-dot">●</span>
-    <span class="sb-item">NIILO BLÄTTLER</span>
-    <span class="sb-dot">●</span>
-    <span class="sb-item">#__</span>
-    <span class="sb-dot">●</span>
-    <span class="sb-item">POSITION: PLATZHALTER</span>
-    <span class="sb-dot">●</span>
-    <span class="sb-item">SAISON 25/26</span>
-    <span class="sb-dot">●</span>
-    <!-- Duplikat für nahtlosen Loop -->
-    <span class="sb-item">ZUG UNITED · U21</span>
-    <span class="sb-dot">●</span>
-    <span class="sb-item">NIILO BLÄTTLER</span>
-    <span class="sb-dot">●</span>
-    <span class="sb-item">#__</span>
-    <span class="sb-dot">●</span>
-    <span class="sb-item">POSITION: PLATZHALTER</span>
-    <span class="sb-dot">●</span>
-    <span class="sb-item">SAISON 25/26</span>
-    <span class="sb-dot">●</span>
+  <div class="scoreboard-track" id="scoreboard-track">
+    <div class="scoreboard-set">
+      <span class="sb-item">ZUG UNITED · U21</span>
+      <span class="sb-dot">●</span>
+      <span class="sb-item">NIILO BLÄTTLER</span>
+      <span class="sb-dot">●</span>
+      <span class="sb-item">#92</span>
+      <span class="sb-dot">●</span>
+      <span class="sb-item">POSITION: GOALIE</span>
+      <span class="sb-dot">●</span>
+      <span class="sb-item">SAISON 25/26</span>
+      <span class="sb-dot">●</span>
+    </div>
   </div>
 </div>
 
   <!-- ===== HERO ===== -->
   <header class="hero">
     <div class="hero-photo">
-         <img src="images/SelectedPlayerPhoto.jpg" alt="Niilo Blättler" style="width:100%;height:100%;object-fit:cover;">
+         <img src="images/SelectedPlayerPhoto.jpg" alt="Niilo Blättler">
     </div>
     <div class="hero-content">
       <p class="eyebrow">Unihockey · Zug United U21</p>
@@ -196,6 +187,75 @@
 <script src="script.js"></script>
 <script>
   lucide.createIcons();
+</script>
+<script>
+  // Scoreboard-Ticker: dupliziert den Item-Satz dynamisch, bis der Track
+  // garantiert mindestens doppelt so breit wie der sichtbare Bereich ist.
+  // Dadurch läuft die CSS-Animation (translateX 0 -> -50%) bei jeder
+  // Bildschirmbreite wirklich nahtlos und endlos durch, statt an einer
+  // Stelle zu "springen" oder abzureissen.
+  (function () {
+    var site = document.getElementById('site');
+    var track = document.getElementById('scoreboard-track');
+    if (!track) return;
+    var baseSet = track.querySelector('.scoreboard-set');
+    if (!baseSet) return;
+
+    function buildTicker() {
+      // Vor dem Neuaufbau alles bis auf den ursprünglichen Satz entfernen
+      Array.prototype.slice.call(track.children).forEach(function (child) {
+        if (child !== baseSet) track.removeChild(child);
+      });
+
+      var containerWidth = track.parentElement.clientWidth;
+      var setWidth = baseSet.getBoundingClientRect().width;
+      if (!setWidth || !containerWidth) return false;
+
+      // Genug Sätze anhängen, bis eine "Hälfte" mindestens so breit wie
+      // der sichtbare Bereich ist.
+      var halfWidth = setWidth;
+      while (halfWidth < containerWidth) {
+        var clone = baseSet.cloneNode(true);
+        track.appendChild(clone);
+        halfWidth += setWidth;
+      }
+
+      // Die komplette Hälfte ein zweites Mal anhängen -> zwei identische
+      // Hälften, dadurch ist translateX(-50%) immer exakt eine Hälfte breit.
+      Array.prototype.slice.call(track.children).forEach(function (node) {
+        track.appendChild(node.cloneNode(true));
+      });
+
+      return true;
+    }
+
+    var built = false;
+    function tryBuild() {
+      if (built) return;
+      built = buildTicker();
+    }
+
+    if (!site || !site.hidden) {
+      tryBuild();
+    } else {
+      var observer = new MutationObserver(function () {
+        if (!site.hidden) {
+          tryBuild();
+          observer.disconnect();
+        }
+      });
+      observer.observe(site, { attributes: true, attributeFilter: ['hidden'] });
+    }
+
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        built = false;
+        tryBuild();
+      }, 200);
+    });
+  })();
 </script>
 </body>
 </html>

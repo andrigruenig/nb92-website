@@ -145,12 +145,20 @@ a { color: inherit; }
 .scoreboard-track {
   display: flex;
   width: max-content;
-  min-width: 100%;
   padding: 10px 0;
   white-space: nowrap;
   animation: ticker 22s linear infinite;
   animation-fill-mode: both;
   will-change: transform;
+}
+
+/* Ein "Satz" der Ticker-Items. Wird per JS so oft geklont, bis der
+   Track garantiert mindestens doppelt so breit wie der Viewport ist —
+   so bleibt die Schleife bei jeder Bildschirmbreite nahtlos. */
+.scoreboard-set {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .sb-item, .sb-dot {
@@ -201,6 +209,13 @@ a { color: inherit; }
 
 .hero-photo {
   min-height: 360px;
+}
+
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .hero-content {
@@ -599,14 +614,6 @@ a { color: inherit; }
 .contact-link:hover {
   border-color: var(--accent);
   transform: translateY(-2px);
-}
-
-.contact-kind {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  color: var(--accent-2);
-  text-transform: uppercase;
 }
 
 .contact-value {
