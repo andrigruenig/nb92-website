@@ -410,6 +410,84 @@ a { color: inherit; }
   .stats { padding: 56px 20px; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
+/* ===================== My Values ===================== */
+
+.myValues {
+  padding: 88px 64px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.myValues-wrap {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.myValues-head {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 32px;
+  align-items: start;
+  margin-bottom: 32px;
+}
+
+.myValues-text {
+  margin: 0;
+  color: var(--ink-muted);
+  line-height: 1.75;
+  font-size: 1rem;
+}
+
+.myValues-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+
+.myValues-card {
+  background: linear-gradient(180deg, var(--surface), var(--surface-2));
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 28px 22px;
+}
+
+.myValues-number {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.myValues-card h3 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 1.6rem;
+  line-height: 1;
+  margin: 10px 0 12px;
+}
+
+.myValues-card p {
+  margin: 0;
+  color: var(--ink-muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 980px) {
+  .myValues-head {
+    grid-template-columns: 1fr;
+  }
+
+  .myValues-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .myValues { padding: 56px 20px; }
+  .myValues-grid { grid-template-columns: 1fr; }
+}
 
 /* ===================== WARUM MICH SPONSOREN ===================== */
 
@@ -426,10 +504,18 @@ a { color: inherit; }
 
 .sponsor-why-head {
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 32px;
-  align-items: end;
-  margin-bottom: 32px;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+  margin-bottom: 48px;
+}
+
+.sponsor-why-wrap > .section-label {
+  text-align: right;
+}
+
+.sponsor-why-heading {
+  text-align: right;
 }
 
 .sponsor-why-text {
@@ -480,6 +566,10 @@ a { color: inherit; }
     grid-template-columns: 1fr;
   }
 
+  .sponsor-why-heading {
+    text-align: left;
+  }
+
   .sponsor-why-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -488,6 +578,20 @@ a { color: inherit; }
 @media (max-width: 700px) {
   .sponsor-why { padding: 56px 20px; }
   .sponsor-why-grid { grid-template-columns: 1fr; }
+}
+
+.sponsor-note {
+  margin: 40px auto 0;
+  padding: 16px 20px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+  border-left: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+  background: rgba(255, 90, 31, 0.04);
+  max-width: 640px;
 }
 
 /* ===================== TIMELINE ===================== */
